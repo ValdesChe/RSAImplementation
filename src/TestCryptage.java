@@ -9,10 +9,10 @@ import java.util.ArrayList;
  */
 public class TestCryptage {
     public static void main(String args[]) throws IOException {
-        RSA crypto = new RSA(45);
+        RSA crypto = new RSA(25);
         System.out.println(crypto.toString());
 
-        byte [] messageByte = "addfhrryvgvgr---+".getBytes();
+        byte [] messageByte = "aABCDEFdd54fdgdfgdfg5856+".getBytes();
         System.out.println("BYTES AVANT CRYPT");
         for (int i = 0; i < messageByte.length; i++) {
             System.out.print(messageByte[i] + " ** ");
@@ -22,10 +22,10 @@ public class TestCryptage {
         String encrypted_string = "";
         for( int i = 0 ; i < encripted_data.length ; i++ )
         {
-            encrypted_string += " ** " + (int)((char)encripted_data[i].intValue());
+            encrypted_string += " ** " + ((char)encripted_data[i].intValue());
         }
 
-        System.out.println("\n BYTES APRES CRYPT");
+        System.out.print("\n BYTES APRES CRYPT");
         System.out.println("\n" + encrypted_string);
 
         System.out.println("\n BYTES APRES DECRYPTAGE ");

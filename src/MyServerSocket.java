@@ -1,11 +1,24 @@
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+
 public class MyServerSocket {
+
     private ServerSocket server;
+
+    // Sockets
+    Socket clientSocket = null;
+    ExecutorService pool = null;
+    int clientCount = 0;
+
+
     public MyServerSocket(String ipAddress) throws Exception {
         if (ipAddress != null && !ipAddress.isEmpty())
             this.server = new ServerSocket(6652, 1, InetAddress.getByName(ipAddress));
@@ -14,15 +27,14 @@ public class MyServerSocket {
     }
     private void listen() throws Exception {
         String data = null;
-        Socket client = this.server.accept();
-        String clientAddress = client.getInetAddress().getHostAddress();
+        clientSocket = this.server.accept();
+        String clientAddress = clientSocket.getInetAddress().getHostAddress();
         System.out.println("\r\nNew connection from " + clientAddress);
+        clientCount++;
+        ServerThread runnable= new ServerThread(clientSocket , clientCount , this);
+        pool.execute(runnable);
 
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(client.getInputStream()));
-        while ( (data = in.readLine()) != null ) {
-            System.out.println("\r\nMessage from " + clientAddress + ": " + data);
-        }
+
     }
     public InetAddress getSocketAddress() {
         return this.server.getInetAddress();
@@ -40,4 +52,7 @@ public class MyServerSocket {
 
         app.listen();
     }
+
+
+
 }
