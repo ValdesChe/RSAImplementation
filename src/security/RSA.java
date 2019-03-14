@@ -20,7 +20,7 @@ public class RSA {
 
     private BigInteger clePublique;
     private BigInteger clePrivee;
-    private int tailleBit = 105;
+    private int tailleBit;
 
     /***
      * Constructeur security.RSA
@@ -29,8 +29,8 @@ public class RSA {
     public RSA(int tailleBit) {
         this.tailleBit = tailleBit;
         // Generation  de deux nombres premiers p et q
-        BigInteger p = BigInteger.probablePrime(tailleBit / 2, new Random());
-        BigInteger q = BigInteger.probablePrime(tailleBit / 2, new Random());
+        BigInteger p = BigInteger.probablePrime(tailleBit, new Random());
+        BigInteger q = BigInteger.probablePrime(tailleBit , new Random());
 
         // Determination du produit phi = (p-1) * (q-1)
         BigInteger phi = (p.subtract(one)).multiply(q.subtract(one));
@@ -40,7 +40,7 @@ public class RSA {
         this.modulo = p.multiply(q);
 
         // e =
-        this.clePublique = BigInteger.probablePrime (tailleBit/3 , new Random());
+        this.clePublique = BigInteger.probablePrime (tailleBit/2 , new Random());
         // this.clePublique = new BigInteger("1531");
         // this.clePublique = new BigInteger(Integer.toString(new Random().nextInt(16547)));
 
@@ -56,7 +56,6 @@ public class RSA {
      * @return
      */
     public BigInteger encrypt(BigInteger message){
-
         return message.modPow(clePublique, modulo);
     }
 
@@ -110,10 +109,8 @@ public class RSA {
         char[] charArray = new char[decrypted.length] ;
         for( int i = 0 ; i < charArray.length ; i++ )
             charArray[i] = (char) (decrypted[i].intValue());
-        // System.out.println( new String(charArray)) ;
 
         return new String(charArray);
-        // return this.decrypt(new BigInteger(message)).toString();
     }
 
     public BigInteger getModulus(){
