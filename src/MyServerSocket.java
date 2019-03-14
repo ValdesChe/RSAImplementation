@@ -6,8 +6,11 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MyServerSocket {
 
@@ -17,6 +20,8 @@ public class MyServerSocket {
     Socket clientSocket = null;
     ExecutorService pool = null;
     int clientCount = 0;
+    ArrayList<Socket> socketsClient = new ArrayList<>();
+    HashMap<Integer, Integer> cleClient = new HashMap<>();
 
 
     public MyServerSocket(String ipAddress) throws Exception {
@@ -24,6 +29,7 @@ public class MyServerSocket {
             this.server = new ServerSocket(6652, 1, InetAddress.getByName(ipAddress));
         else
             this.server = new ServerSocket(6652, 1, InetAddress.getLocalHost());
+        pool = Executors.newFixedThreadPool(5);
     }
     private void listen() throws Exception {
         String data = null;
@@ -33,8 +39,6 @@ public class MyServerSocket {
         clientCount++;
         ServerThread runnable= new ServerThread(clientSocket , clientCount , this);
         pool.execute(runnable);
-
-
     }
     public InetAddress getSocketAddress() {
         return this.server.getInetAddress();
