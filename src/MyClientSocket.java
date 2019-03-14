@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import security.RSA;
 
 /**
  * Created by ValdoR on 2019-03-13.
@@ -17,6 +18,14 @@ public class MyClientSocket {
     private void start() throws IOException {
         String input;
         boolean quit = false;
+        RSA rsa = new RSA(150);
+        System.out.println(rsa.toString());
+
+        input = "c"+rsa.getPublicKey();
+        PrintWriter firstOut = new PrintWriter(this.socket.getOutputStream(), true);
+        firstOut.println(input);
+        firstOut.flush();
+
         while (true && !quit) {
             input = scanner.nextLine();
             PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true);
@@ -29,6 +38,7 @@ public class MyClientSocket {
         MyClientSocket client = new MyClientSocket(
                 InetAddress.getByName(args[0]),
                 Integer.parseInt(args[1]));
+
 
         System.out.println("\r\nConnected to Server: " + client.socket.getInetAddress());
         client.start();

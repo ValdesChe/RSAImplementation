@@ -2,7 +2,6 @@ package security;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -122,7 +121,7 @@ public class RSA {
     }
 
     public String getPublicKey(){
-        return this.clePublique.toString() + this.modulo.toString();
+        return this.clePublique.toString()+"-"+ this.modulo.toString();
     }
 
     @Override
