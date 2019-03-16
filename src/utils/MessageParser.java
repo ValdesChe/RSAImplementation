@@ -5,9 +5,9 @@ package utils;
  */
 public class MessageParser {
 
-    public final char KEY_MESSAGE = 'M';
-    public final char KEY_PUBLIC_KEY= 'C';
-    public final char KEY_UNKNOW = 'U';
+    public static char KEY_MESSAGE = 'M';
+    public static char KEY_PUBLIC_KEY= 'C';
+    public static char KEY_UNKNOW = 'U';
 
     public final char [] codes = {KEY_MESSAGE, KEY_PUBLIC_KEY };
 
